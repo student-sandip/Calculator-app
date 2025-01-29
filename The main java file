@@ -1,0 +1,353 @@
+package com.example.snehacalculator;
+
+import static com.example.snehacalculator.R.*;
+
+
+import android.os.Vibrator;
+import android.icu.text.DecimalFormat;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.button.MaterialButton;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    double firstnum;
+    String operations;
+
+    MaterialButton button_c, button_lcm, button_hcf, button_comma, button_modulo, button_openbtackets, button_closebrackets;
+    MaterialButton button_divide, button_multiply, button_subtraction, button_addition, button_equals;
+    MaterialButton button_7, button_8, button_9, button_4, button_5, button_6, button_1, button_2, button_3, button_0;
+    MaterialButton button_ac, button_dot;
+
+
+    private int lcm(int a, int b) {
+        int gcd = hcf(a, b); // Calculate HCF first
+        return (a * b) / gcd;
+    }
+
+    private int hcf(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return hcf(b, a % b);
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(layout.activity_main);
+
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+        button_ac = findViewById(id.button_ac);
+        button_dot = findViewById(id.button_dot);
+
+        button_c = findViewById(id.button_c);
+
+        button_lcm = findViewById(id.button_lcm);
+        button_hcf = findViewById(id.button_hcf);
+
+        button_divide = findViewById(id.button_divide);
+        button_multiply = findViewById(id.button_multiply);
+        button_subtraction = findViewById(id.button_subtraction);
+        button_addition = findViewById(id.button_addition);
+        button_equals = findViewById(id.button_equals);
+        button_modulo = findViewById(id.button_modulo);
+
+        button_dot = findViewById(id.button_dot);
+        button_comma = findViewById(id.button_comma);
+
+        button_openbtackets = findViewById(id.button_openbtackets);
+        button_closebrackets = findViewById(id.button_closebrackets);
+
+        TextView text_result = findViewById(id.text_result);
+
+        button_0 = findViewById(id.button_0) ;
+        button_1 = findViewById(id.button_1);
+        button_2 = findViewById(id.button_2);
+        button_3 = findViewById(id.button_3);
+        button_4 = findViewById(id.button_4);
+        button_5 = findViewById(id.button_5);
+        button_6 = findViewById(id.button_6);
+        button_7 = findViewById(id.button_7);
+        button_8 = findViewById(id.button_8);
+        button_9 = findViewById(id.button_9);
+
+
+        button_ac.setOnClickListener(view -> {
+            text_result.setText("0");
+
+            if (vibrator != null) {
+                vibrator.vibrate(80); // Vibrate for 100 milliseconds
+            }
+
+        });
+
+
+        ArrayList<MaterialButton> nums = new ArrayList<>();
+        nums.add(button_0);
+        nums.add(button_1);
+        nums.add(button_2);
+        nums.add(button_3);
+        nums.add(button_4);
+        nums.add(button_5);
+        nums.add(button_6);
+        nums.add(button_7);
+        nums.add(button_8);
+        nums.add(button_9);
+
+
+        for (MaterialButton b : nums) {
+            b.setOnClickListener(view -> {
+                if (!text_result.getText().toString().equals("0")) {
+                    text_result.setText(text_result.getText().toString() + b.getText().toString());
+                } else {
+                    text_result.setText(b.getText().toString());
+                }
+
+                if (vibrator != null) {
+                    vibrator.vibrate(80); // Vibrate for 100 milliseconds
+                }
+            });
+        }
+        ArrayList<MaterialButton> operators = new ArrayList<>();
+        operators.add(button_divide);
+        operators.add(button_multiply);
+        operators.add(button_subtraction);
+        operators.add(button_addition);
+//        operators.add(button_c);
+        operators.add(button_lcm);
+        operators.add(button_hcf);
+        operators.add(button_dot);
+        operators.add(button_comma);
+
+
+        for (MaterialButton b : operators) {
+            b.setOnClickListener(view -> {
+                firstnum = Double.parseDouble(text_result.getText().toString());
+                operations = b.getText().toString();
+                text_result.setText("0");
+
+            });
+
+            button_addition.setOnClickListener(view -> {
+                firstnum = Double.parseDouble(text_result.getText().toString());  // Store the first number
+                operations = "+";  // Set the operation
+                text_result.setText(text_result.getText().toString()+ "+");  // Display the operation on the screen for debugging
+
+                if (vibrator != null) {
+                    vibrator.vibrate(80); // Vibrate for 100 milliseconds
+                }
+            });
+
+            button_subtraction.setOnClickListener(view -> {
+                firstnum = Double.parseDouble(text_result.getText().toString());  // Store the first number
+                operations = "-";  // Set the operation
+                text_result.setText(text_result.getText().toString()+ "-");  // Display the operation on the screen for debugging
+
+                if (vibrator != null) {
+                    vibrator.vibrate(80); // Vibrate for 100 milliseconds
+                }
+            });
+
+            button_multiply.setOnClickListener(view -> {
+                firstnum = Double.parseDouble(text_result.getText().toString());  // Store the first number
+                operations = "*";  // Set the operation
+                text_result.setText(text_result.getText().toString()+ "*");  // Display the operation on the screen for debugging
+
+                if (vibrator != null) {
+                    vibrator.vibrate(80); // Vibrate for 100 milliseconds
+                }
+            });
+
+            button_divide.setOnClickListener(view -> {
+                firstnum = Double.parseDouble(text_result.getText().toString());  // Store the first number
+                operations = "/";  // Set the operation
+                text_result.setText(text_result.getText().toString()+ "/");  // Display the operation on the screen for debugging
+
+                if (vibrator != null) {
+                    vibrator.vibrate(80); // Vibrate for 100 milliseconds
+                }
+            });
+
+            button_modulo.setOnClickListener(view -> {
+                firstnum = Double.parseDouble(text_result.getText().toString());  // Store the first number
+                operations = "%";  // Set the operation
+                text_result.setText(text_result.getText().toString()+ "%");  // Display the operation on the screen for debugging
+
+                if (vibrator != null) {
+                    vibrator.vibrate(80); // Vibrate for 100 milliseconds
+                }
+            });
+
+            button_lcm.setOnClickListener(view -> {
+                try {
+                    String[] numbers = text_result.getText().toString().split(","); // Assuming input is comma-separated
+                    if (numbers.length == 2) {
+                        int num1 = Integer.parseInt(numbers[0].trim());
+                        int num2 = Integer.parseInt(numbers[1].trim());
+                        int result = lcm(num1, num2);
+                        text_result.setText(String.valueOf(result));
+                    } else {
+                        text_result.setText("Error: Invalid input");
+                    }
+                } catch (NumberFormatException e) {
+                    text_result.setText("Error: Invalid input");
+                }
+
+                if (vibrator != null) {
+                    vibrator.vibrate(80); // Vibrate for 100 milliseconds
+                }
+            });
+
+            button_hcf.setOnClickListener(view -> {
+                try {
+                    String[] numbers = text_result.getText().toString().split(","); // Assuming input is comma-separated
+                    if (numbers.length == 2) {
+                        int num1 = Integer.parseInt(numbers[0].trim());
+                        int num2 = Integer.parseInt(numbers[1].trim());
+                        int result = hcf(num1, num2);
+                        text_result.setText(String.valueOf(result));
+                    } else {
+                        text_result.setText("Error: Invalid input");
+                    }
+                } catch (NumberFormatException e) {
+                    text_result.setText("Error: Invalid input");
+                }
+
+                if (vibrator != null) {
+                    vibrator.vibrate(80); // Vibrate for 100 milliseconds
+                }
+            });
+        }
+        button_c.setOnClickListener(view -> {
+            String s = text_result.getText().toString();
+            if (s.length() > 1) {
+                s = s.substring(0, s.length() - 1);
+                text_result.setText(s);
+            } else if (s.length() == 1 && !s.equals("0")) {
+                text_result.setText("0");
+            }
+
+            if (vibrator != null) {
+                vibrator.vibrate(80); // Vibrate for 100 milliseconds
+            }
+        });
+
+        button_comma.setOnClickListener(view -> {
+            String currentNumber = "";
+            if (!currentNumber.contains(",")) {
+                currentNumber += ","; // Update currentNumber
+                text_result.setText(text_result.getText().toString() + ",");
+            }
+
+            if (vibrator != null) {
+                vibrator.vibrate(80); // Vibrate for 100 milliseconds
+            }
+        });
+
+        button_dot.setOnClickListener(view -> {
+            String currentNumber = "";
+            if (!currentNumber.contains(".")) {
+                currentNumber += "."; // Update currentNumber
+                text_result.setText(text_result.getText().toString() + ".");
+            }
+
+            if (vibrator != null) {
+                vibrator.vibrate(80); // Vibrate for 100 milliseconds
+            }
+        });
+
+        button_openbtackets.setOnClickListener(view -> {
+            String currentNumber = "";
+            if (!currentNumber.contains("(")) {
+                currentNumber += "("; // Update currentNumber
+                text_result.setText(text_result.getText().toString() + "(");
+            }
+
+            if (vibrator != null) {
+                vibrator.vibrate(80); // Vibrate for 100 milliseconds
+            }
+        });
+
+        button_closebrackets.setOnClickListener(view -> {
+            String currentNumber = "";
+            if (!currentNumber.contains(")")) {
+                currentNumber += ")"; // Update currentNumber
+                text_result.setText(text_result.getText().toString() + ")");
+            }
+
+            if (vibrator != null) {
+                vibrator.vibrate(80); // Vibrate for 100 milliseconds
+            }
+        });
+
+
+        button_equals.setOnClickListener(view -> {
+            if (vibrator != null) {
+                vibrator.vibrate(80); // Vibrate for 100 milliseconds
+            }
+            try {
+                String resultText = text_result.getText().toString();
+                if (!resultText.isEmpty() && !resultText.equals("0") && operations != null && !operations.isEmpty()) {
+//                     Extract the second number (after the operator)
+                    String secondNumStr = resultText.substring(resultText.indexOf(operations) + 1);
+                    double secondnum = Double.parseDouble(secondNumStr);
+
+                    double res;
+                    switch (operations) {
+                        case "+":
+                            res = firstnum + secondnum;
+                            break;
+                        case "-":
+                            res = firstnum - secondnum;
+                            break;
+                        case "*":
+                            res = firstnum * secondnum;
+                            break;
+                        case "%":
+                            res = firstnum % secondnum;
+                            break;
+                        case "/":
+                            if (secondnum != 0) {
+                                res = firstnum / secondnum;
+                            } else {
+                                text_result.setText("Error");
+                                return;
+                            }
+                            break;
+                        default:
+                            text_result.setText("Err !");
+                            return;
+                    }
+
+                    text_result.setText(String.valueOf(res));
+                    firstnum = res; // Store the result for further calculations
+                    operations = ""; // Reset the operation
+
+                    if (String.valueOf(res).endsWith(".0")) {
+                        text_result.setText(String.valueOf((long) res)); // Cast to long to remove decimals
+                    } else {
+                        text_result.setText(String.valueOf(res)); // Display as is for decimal values
+                    }
+                }
+            } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
+                text_result.setText("Error");
+            }
+        });
+
+    }
+}
